@@ -1,16 +1,20 @@
 {
-  "name": "bower-ion-slide-box-tabs",
-  "version": "0.0.0",
-  "homepage": "https://github.com/mikerandall/ion-slide-box-tabs",
-  "authors": [
-    "Mike Randall <randall.me@gmail.com>"
-  ],
-  "description": "A bower implementaion of JKnorr91's ion-slide-box-tabs",
-  "keywords": [
-    "Ionic",
-    "slidebox",
-    "tabs",
-    "bower"
-  ],
-  "license": "MIT"
+    "name": "bower-ion-slide-box-tabs",
+    "version": "0.0.0",
+    "homepage": "https://github.com/mikerandall/ion-slide-box-tabs",
+    "authors": [
+        "Mike Randall <randall.me@gmail.com>"
+    ],
+    "description": "A bower implementaion of JKnorr91's ion-slide-box-tabs",
+    "main": [
+        "./src/js/slidingTabsDirective.js",
+        "./src/scss/slidingTabs.scss"
+    ],
+    "keywords": [
+        "Ionic",
+        "slidebox",
+        "tabs",
+        "bower"
+    ],
+    "license": "MIT"
 }
