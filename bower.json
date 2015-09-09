@@ -8,7 +8,7 @@
     "description": "A bower implementaion of JKnorr91's ion-slide-box-tabs",
     "main": [
         "./src/js/slidingTabsDirective.js",
-        "./src/scss/slidingTabs.scss"
+        "./src/scss/_slidingTabs.scss"
     ],
     "keywords": [
         "Ionic",
