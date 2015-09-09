@@ -10,6 +10,15 @@
         "./src/js/slidingTabsDirective.js",
         "./src/scss/_slidingTabs.scss"
     ],
+    "ignore": [
+        "./example",
+        "./gulpfile.js",
+        "./LICENSE",
+        "./package.json",
+        "./README.md"
+        "./bower.json",
+        ".gitignore"
+    ],
     "keywords": [
         "Ionic",
         "slidebox",
