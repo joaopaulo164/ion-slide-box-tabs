@@ -15,7 +15,7 @@
         "./gulpfile.js",
         "./LICENSE",
         "./package.json",
-        "./README.md"
+        "./README.md",
         "./bower.json",
         ".gitignore"
     ],
