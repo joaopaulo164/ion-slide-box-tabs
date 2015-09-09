@@ -1,11 +1,25 @@
 
-$slidingTabsHeight: 48px;
+$slidingTabsHeight: 48px !default;
+$slidingTabsBackground: $bar-positive-bg !default;
+$slidingTabsTextColor: rgba(255,255,255,.6) !default;
+$slidingTabsTextSize: 11px !default;
+$slidingTabsLIPadding: 0 12px 20px 12px !default;
+$slidingTabsLIMargin: 0 !default;
+$slidingTabsActiveTab: #fff !default;
+
+$inkBackground: rgba(56, 147, 245,.8) !default;
+$ionSlideBackground: #f0f0f0 !default;
+$ionSlideEvenBackground: #fff !default;
+
+$tabIndicatorWrapper: rgba(255,255,255,.2) !default;
+$tabIndicatorBackground: #fff !default;
+
 
 ion-slide {
-  background-color: #f0f0f0;
+  background-color: $ionSlideBackground;
 
   &:nth-child(2n) {
-    background-color: #fff;
+    background-color: $ionSlideEvenBackground;
   }
 }
 
@@ -25,7 +39,7 @@ ion-slide {
   z-index: 10;
 
   ul {
-    background-color: $bar-positive-bg;
+    background-color: $slidingTabsBackground;
     height: $slidingTabsHeight;
 
     li {
@@ -33,22 +47,23 @@ ion-slide {
       line-height: $slidingTabsHeight;
       text-align: center;
       float: left;
-      margin: 0;
-      padding: 0 12px 20px 12px;
-      font-size: 11px;
+      margin: $slidingTabsLIMargin;
+      padding: $slidingTabsLIPadding;
+      font-size: $slidingTabsTextSize;
       text-transform: uppercase;
-      color: rgba(255,255,255,.6);
+      color: $slidingTabsTextColor;
       @include transition(color .25s ease-in-out);
       position: relative;
       overflow: hidden;
 
       &.tab-active {
-        color: #fff;
+        color: $slidingTabsActiveTab;
       }
 
       .ink {
-        display: block; position: absolute;
-        background: rgba(56, 147, 245,.8);
+        display: block;
+        position: absolute;
+        background: $inkBackground;
         border-radius: 100%;
         transform: scale(0);
       }
@@ -63,14 +78,14 @@ ion-slide {
   .tab-indicator-wrapper {
     width: 100%;
     height: 2px;
-    background-color: rgba(255,255,255,.2);
+    background-color: $tabIndicatorWrapper;
     -webkit-transform: translateY(-2px);
     position: absolute;
 
     .tab-indicator {
       height: 100%;
 
-      background-color: #fff;
+      background-color: $tabIndicatorBackground;
       width: 70px;
       position: relative;
     }
