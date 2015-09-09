@@ -107,6 +107,10 @@ var slidingTabsDirective = angular.module("ionic").directive('ionSlideTabs', ['$
                     slideTabs.css("width",tabsList[0].offsetWidth / slideTabs.length + "px");
                 }
 
+
+                // hack to fix width (can't figure out where it's setting it to 0px)
+                document.querySelector('.slider-slides').style.width = '100%';
+
                 slideToCurrentPosition();
 
             };
