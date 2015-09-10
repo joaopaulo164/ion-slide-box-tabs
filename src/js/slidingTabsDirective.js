@@ -108,11 +108,10 @@ var slidingTabsDirective = angular.module("ionic").directive('ionSlideTabs', ['$
                 }
 
 
-                // hack to fix width (can't figure out where it's setting it to 0px)
-                document.querySelector('.slider-slides').style.width = '100%';
-
                 slideToCurrentPosition();
 
+                // call update to reset the slidebox sizing
+                ionicSlideBoxDelegate.update();
             };
 
             var addTabTouchAnimation = function(event,currentElement) {
@@ -228,6 +227,7 @@ var slidingTabsDirective = angular.module("ionic").directive('ionSlideTabs', ['$
 
             scope.onTabTabbed = function(event, index) {
                 addTabTouchAnimation(event, angular.element(event.currentTarget) );
+console.log('onTabTabbed:'+index)
                 ionicSlideBoxDelegate.slide(index);
                 slideToCurrentPosition();
             }
@@ -248,6 +248,7 @@ var slidingTabsDirective = angular.module("ionic").directive('ionSlideTabs', ['$
             }
 
             scope.onSlideChange = function (slideIndex) {
+console.log('currentSlide:'+ionicSlideBoxDelegate.currentIndex())
                 slideToCurrentPosition();
             };
 
