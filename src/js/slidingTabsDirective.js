@@ -227,7 +227,6 @@ var slidingTabsDirective = angular.module("ionic").directive('ionSlideTabs', ['$
 
             scope.onTabTabbed = function(event, index) {
                 addTabTouchAnimation(event, angular.element(event.currentTarget) );
-console.log('onTabTabbed:'+index)
                 ionicSlideBoxDelegate.slide(index);
                 slideToCurrentPosition();
             }
@@ -248,7 +247,6 @@ console.log('onTabTabbed:'+index)
             }
 
             scope.onSlideChange = function (slideIndex) {
-console.log('currentSlide:'+ionicSlideBoxDelegate.currentIndex())
                 slideToCurrentPosition();
             };
 
