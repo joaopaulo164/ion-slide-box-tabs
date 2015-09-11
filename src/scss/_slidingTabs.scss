@@ -1,101 +1,82 @@
-
 $slidingTabsHeight: 48px !default;
 $slidingTabsBackground: $bar-positive-bg !default;
-$slidingTabsTextColor: rgba(255,255,255,.6) !default;
+$slidingTabsTextColor: rgba(255, 255, 255, .6) !default;
 $slidingTabsTextSize: 11px !default;
 $slidingTabsLIPadding: 0 12px 20px 12px !default;
 $slidingTabsLIMargin: 0 !default;
 $slidingTabsActiveTab: #fff !default;
-
-$inkBackground: rgba(56, 147, 245,.8) !default;
+$inkBackground: rgba(56, 147, 245, .8) !default;
 $ionSlideBackground: #f0f0f0 !default;
 $ionSlideEvenBackground: #fff !default;
-
-$tabIndicatorWrapper: rgba(255,255,255,.2) !default;
+$tabIndicatorWrapper: rgba(255, 255, 255, .2) !default;
 $tabIndicatorBackground: #fff !default;
-
-
 ion-slide {
-  background-color: $ionSlideBackground;
-
-  &:nth-child(2n) {
-    background-color: $ionSlideEvenBackground;
-  }
+    background-color: $ionSlideBackground;
+    &:nth-child(2n) {
+        background-color: $ionSlideEvenBackground;
+    }
 }
 
 .slider {
-  height: 100%;
+    height: 100%;
 }
 
-
 .slidingTabs {
-  height: $slidingTabsHeight;
-
-  .scroll {
-    height: auto;
-    min-width: 100%;
-  }
-
-  z-index: 10;
-
-  ul {
-    background-color: $slidingTabsBackground;
     height: $slidingTabsHeight;
-
-    li {
-      height: $slidingTabsHeight;
-      line-height: $slidingTabsHeight;
-      text-align: center;
-      float: left;
-      margin: $slidingTabsLIMargin;
-      padding: $slidingTabsLIPadding;
-      font-size: $slidingTabsTextSize;
-      text-transform: uppercase;
-      color: $slidingTabsTextColor;
-      @include transition(color .25s ease-in-out);
-      position: relative;
-      overflow: hidden;
-
-      &.tab-active {
-        color: $slidingTabsActiveTab;
-      }
-
-      .ink {
-        display: block;
+    .scroll {
+        height: auto;
+        min-width: 100%;
+    }
+    z-index: 10;
+    ul {
+        background-color: $slidingTabsBackground;
+        height: $slidingTabsHeight;
+        li {
+            height: $slidingTabsHeight;
+            line-height: $slidingTabsHeight;
+            text-align: center;
+            float: left;
+            margin: $slidingTabsLIMargin;
+            padding: $slidingTabsLIPadding;
+            font-size: $slidingTabsTextSize;
+            text-transform: uppercase;
+            color: $slidingTabsTextColor;
+            @include transition(color .25s ease-in-out);
+            position: relative;
+            overflow: hidden;
+            &.tab-active {
+                color: $slidingTabsActiveTab;
+            }
+            .ink {
+                display: block;
+                position: absolute;
+                background: $inkBackground;
+                border-radius: 100%;
+                transform: scale(0);
+            }
+            .ink.animate {
+                @include animation(ripple 0.65s linear);
+            }
+        }
+    }
+    .tab-indicator-wrapper {
+        width: 100%;
+        height: 2px;
+        background-color: $tabIndicatorWrapper;
+        -webkit-transform: translateY(-2px);
         position: absolute;
-        background: $inkBackground;
-        border-radius: 100%;
-        transform: scale(0);
-      }
-
-      .ink.animate {
-        @include animation(ripple 0.65s linear);
-      }
-
+        .tab-indicator {
+            height: 100%;
+            background-color: $tabIndicatorBackground;
+            width: 70px;
+            position: relative;
+        }
     }
-  }
-
-  .tab-indicator-wrapper {
-    width: 100%;
-    height: 2px;
-    background-color: $tabIndicatorWrapper;
-    -webkit-transform: translateY(-2px);
-    position: absolute;
-
-    .tab-indicator {
-      height: 100%;
-
-      background-color: $tabIndicatorBackground;
-      width: 70px;
-      position: relative;
-    }
-  }
-
 }
 
 @-webkit-keyframes ripple {
-  100% {
-    opacity: 0;
-    transform: scale(2.5);
-  }
+    100% {
+        opacity: 0;
+        transform: scale(2.5);
+    }
 }
