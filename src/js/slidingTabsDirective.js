@@ -265,7 +265,16 @@ console.log('init called')
                 }
 
                 // check if the parent is a sibling of another slidebox
-                var isInnerSlideBox = angular.element(parentSlideBox).parent().parent().parent().hasClass('disable-user-behavior');
+                parent = parentSlideBox.parentNode;
+                while(parent) {
+                    if (parent.getAttribute &&
+                        parent.getAttribute('delegate-handle')) {
+                        var isInnerSlideBox = true;
+                        parent = false;
+                    } else {
+                        parent = parent.parentNode;
+                    }
+                }
 
                 // set the current slide using the first parent
                 currentSlideIndex = ionicSlideBoxDelegate.currentIndex();
