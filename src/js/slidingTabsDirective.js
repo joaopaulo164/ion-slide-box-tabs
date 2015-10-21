@@ -231,11 +231,11 @@ console.log('init called')
                 }
 
             };
-
+/*
             var setLockStatus = function (event) {
                 var slide = event.srcElement;
 
-                console.log(slide)
+                //console.log(slide)
 
                 var delegateHandle  = false,
                     slides          = [],
@@ -245,16 +245,16 @@ console.log('init called')
 
                 // search for all ion-slide-box parents
                 slideBox = document.querySelectorAll('.slider.disable-user-behavior');
-                console.log(slideBox)
-/*                while (parent) {
-                    if (parent.getAttribute &&
-                        parent.getAttribute('delegate-handle')) {
-                        slideBox[slideBox.length] = parent;
-                    }
+                //console.log(slideBox)
+//                while (parent) {
+//                    if (parent.getAttribute &&
+//                        parent.getAttribute('delegate-handle')) {
+//                        slideBox[slideBox.length] = parent;
+//                    }
+//
+//                    parent = parent.parentNode;
+//                }
 
-                    parent = parent.parentNode;
-                }
-*/
                 // build slides
                 if (slideBox.length > 1) {
                     parentSlideBox = slideBox[1];
@@ -285,7 +285,10 @@ console.log('init called')
 
                 // figure out the target slide
                 targetSlideIndex = (currentSlideIndex + 1);
-                if (currentSlideLeftOffset > slider.prop("offsetLeft")) {
+console.log('currentSlideLeftOffset:'+currentSlideLeftOffset)
+console.log('slider.prop(offsetLeft):'+slider.prop('offsetLeft'))
+console.log('currentSlideLeftOffset:' + event.srcElement.offsetLeft);
+                if (currentSlideLeftOffset < slider.prop("offsetLeft")) {
                     targetSlideIndex = currentSlideIndex - 1;
                 }
 
@@ -324,6 +327,57 @@ console.log('disabling:'+slideBox[0].getAttribute('delegate-handle'))
                 }
 
             };
+*/
+
+            var lockParent = null;
+
+            var setLockStatus = function (currentSlide, event) {
+                if (lockParent !== null) {
+                    $timeout.cancel(lockParent);
+                }
+
+                lockParent = $timeout(function () {
+                    var slide = currentSlide[0],
+                        parentBox = slide.parentElement.parentElement,
+                        outerSlideBox = null;
+
+                    if (parentBox.parentElement.parentElement.className.indexOf('slider') > -1) {
+                        outerSlideBox = parentBox.parentElement.parentElement.parentElement;
+                    }
+
+
+                    var direction = (event.type === 'dragright') ? 'right' : 'left';
+
+
+    //console.log('currentSlide:'+currentSlide);
+    console.log('direction:'+direction);
+    console.log('parentBox disabled:'+$ionicSlideBoxDelegate.$getByHandle(parentBox.getAttribute('delegate-handle'))._instances[1].slideIsDisabled)
+    console.log('outerSlideBox disabled:'+$ionicSlideBoxDelegate.$getByHandle(outerSlideBox.getAttribute('delegate-handle'))._instances[0].slideIsDisabled)
+
+                    // if there is an outer slidebox
+                    if (outerSlideBox !== null) {
+
+                        var sibling = (direction === 'left') ? 'nextElementSibling' : 'previousElementSibling';
+                        var handle = outerSlideBox.getAttribute('delegate-handle');
+
+                        var slideIsChildOfOuter = (slide.parentElement.parentElement === outerSlideBox);
+
+                        if (slideIsChildOfOuter) {
+                            return $ionicSlideBoxDelegate.$getByHandle(handle).enableSlide(true);
+                        }
+
+    console.log('outerSlideBox:' + outerSlideBox.getAttribute('delegate-handle'))
+    console.log('parentBox:' + parentBox.getAttribute('delegate-handle'))
+    console.log('sibling:'+sibling)
+    console.log('handle:'+handle)
+    console.log(sibling+'===null:'+(slide[sibling] === null))
+
+                        $ionicSlideBoxDelegate.$getByHandle(handle).enableSlide(slide[sibling] === null);
+
+                    }
+
+                }, 10);
+            };
 
             scope.onTabTabbed = function(event, index) {
                 addTabTouchAnimation(event, angular.element(event.currentTarget) );
@@ -351,15 +405,14 @@ console.log('disabling:'+slideBox[0].getAttribute('delegate-handle'))
                 slideToCurrentPosition();
 
                 // set the lock status of the sliding tabs
-                setLockStatus(event);
+                setLockStatus(angular.element(event.srcElement), event);
             };
 
             scope.onSlideMove = function (event) {
-
                 var scrollDiv = slider[0].getElementsByClassName("slider-slide");
 
                 var currentSlideIndex = ionicSlideBoxDelegate.currentIndex();
-                var currentSlide = angular.element(scrollDiv[currentSlideIndex]);
+                var currentSlide = angular.element(event.srcElement); //angular.element(scrollDiv[currentSlideIndex]);
                 var currentSlideLeftOffset = currentSlide.css('-webkit-transform').replace(/[^0-9\-.,]/g, '').split(',')[0];
 
                 var targetSlideIndex = (currentSlideIndex + 1) % scrollDiv.length;
@@ -374,6 +427,9 @@ console.log('disabling:'+slideBox[0].getAttribute('delegate-handle'))
                 var position = currentSlideLeftOffset / slider[0].offsetWidth;
                 var slideDirection = position > 0 ? "right":"left";
                 position = Math.abs(position);
+
+                // determine lock status for slidebox
+                setLockStatus(currentSlide, event);
 
                 setIndicatorPosition(currentSlideIndex, targetSlideIndex, position, slideDirection);
             };
@@ -419,7 +475,7 @@ slidingTabsDirective.factory('ionSlideBoxService', [function () {
 console.log('ionSlideBoxService:')
 console.log('slide:'+slide)
         angular.forEach(slideBoxes, function (name) {
-            slideBoxes[name]
+            slideBoxes[name].querySelector('')
         });
     };
 
