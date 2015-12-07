@@ -27,7 +27,6 @@ var slidingTabsDirective = angular.module("ionic").directive('ionSlideTabs', [
             };
 
             var init = function () {
-console.log('init called')
 
                 if (angular.isDefined( attrs.slideTabsScrollable ) && attrs.slideTabsScrollable === "false" ) {
                     options.slideTabsScrollable = false;
@@ -231,153 +230,6 @@ console.log('init called')
                 }
 
             };
-/*
-            var setLockStatus = function (event) {
-                var slide = event.srcElement;
-
-                //console.log(slide)
-
-                var delegateHandle  = false,
-                    slides          = [],
-                    parent          = slide.parentNode,
-                    slideBox        = [],
-                    parentSlideBox  = false;
-
-                // search for all ion-slide-box parents
-                slideBox = document.querySelectorAll('.slider.disable-user-behavior');
-                //console.log(slideBox)
-//                while (parent) {
-//                    if (parent.getAttribute &&
-//                        parent.getAttribute('delegate-handle')) {
-//                        slideBox[slideBox.length] = parent;
-//                    }
-//
-//                    parent = parent.parentNode;
-//                }
-
-                // build slides
-                if (slideBox.length > 1) {
-                    parentSlideBox = slideBox[1];
-                    slides = parentSlideBox.getElementsByClassName('slider-slide');
-                } else {
-                    parentSlideBox = slideBox[0];
-                    slides = parentSlideBox.getElementsByClassName('slider-slide');
-                }
-
-                // check if the parent is a sibling of another slidebox
-                parent = parentSlideBox.parentNode;
-                while(parent) {
-                    if (parent.getAttribute &&
-                        parent.getAttribute('delegate-handle')) {
-                        var isInnerSlideBox = true;
-                        parent = false;
-                    } else {
-                        parent = parent.parentNode;
-                    }
-                }
-
-                // set the current slide using the first parent
-                currentSlideIndex = ionicSlideBoxDelegate.currentIndex();
-                // get the current slide
-                currentSlide = slides[currentSlideIndex];
-                // figure out the left-most area of the current slide
-                var currentSlideLeftOffset = angular.element(currentSlide).css('-webkit-transform').replace(/[^0-9\-.,]/g, '').split(',')[0];
-
-                // figure out the target slide
-                targetSlideIndex = (currentSlideIndex + 1);
-console.log('currentSlideLeftOffset:'+currentSlideLeftOffset)
-console.log('slider.prop(offsetLeft):'+slider.prop('offsetLeft'))
-console.log('currentSlideLeftOffset:' + event.srcElement.offsetLeft);
-                if (currentSlideLeftOffset < slider.prop("offsetLeft")) {
-                    targetSlideIndex = currentSlideIndex - 1;
-                }
-
-                console.log('currentSlideIndex:'+currentSlideIndex)
-                console.log('slideBox.length:'+slideBox.length)
-                console.log('slides.length:'+slides.length)
-                console.log('targetSlideIndex:'+targetSlideIndex)
-                console.log('isInnerSlideBox:'+isInnerSlideBox)
-                console.log(parentSlideBox)
-
-                // if the currentSlide is the first or last slide, and there is an outer
-                // parent, reset scrolling on it
-                if  ( slideBox.length > 1 &&
-                    ( currentSlideIndex === 0 && targetSlideIndex === -1) ||
-                    ( currentSlideIndex === slides.length - 1 &&
-                        targetSlideIndex === slides.length)) {
-
-                    $timeout(function () {
-console.log('reenabling:' + slideBox[0].getAttribute('delegate-handle'));
-                        $ionicSlideBoxDelegate.$getByHandle(slideBox[0].getAttribute('delegate-handle')).enableSlide(true);
-                    });
-                    event.stopPropagation();
-                    return;
-                }
-
-                // if there's more than 1 slide box, shut down scrolling on the outer parent
-                // and stop event from propagating up
-                if (slideBox.length > 1 &&
-                    isInnerSlideBox) {
-                    $timeout(function () {
-console.log('disabling:'+slideBox[0].getAttribute('delegate-handle'))
-                        $ionicSlideBoxDelegate.$getByHandle(slideBox[0].getAttribute('delegate-handle')).enableSlide(false);
-                    });
-
-                    return event.stopPropagation();
-                }
-
-            };
-*/
-
-            var lockParent = null;
-
-            var setLockStatus = function (currentSlide, event) {
-                if (lockParent !== null) {
-                    $timeout.cancel(lockParent);
-                }
-
-                lockParent = $timeout(function () {
-                    var slide = currentSlide[0],
-                        parentBox = slide.parentElement.parentElement,
-                        outerSlideBox = null;
-
-                    if (parentBox.parentElement.parentElement.className.indexOf('slider') > -1) {
-                        outerSlideBox = parentBox.parentElement.parentElement.parentElement;
-                    }
-
-
-                    var direction = (event.type === 'dragright') ? 'right' : 'left';
-
-
-    //console.log('currentSlide:'+currentSlide);
-    console.log('direction:'+direction);
-    console.log('parentBox disabled:'+$ionicSlideBoxDelegate.$getByHandle(parentBox.getAttribute('delegate-handle'))._instances[1].slideIsDisabled)
-    console.log('outerSlideBox disabled:'+$ionicSlideBoxDelegate.$getByHandle(outerSlideBox.getAttribute('delegate-handle'))._instances[0].slideIsDisabled)
-
-                    // if there is an outer slidebox
-                    if (outerSlideBox !== null) {
-
-                        var sibling = (direction === 'left') ? 'nextElementSibling' : 'previousElementSibling';
-                        var handle = outerSlideBox.getAttribute('delegate-handle');
-
-                        var slideIsChildOfOuter = (slide.parentElement.parentElement === outerSlideBox);
-
-                        if (slideIsChildOfOuter) {
-                            return $ionicSlideBoxDelegate.$getByHandle(handle).enableSlide(true);
-                        }
-
-    console.log('outerSlideBox:' + outerSlideBox.getAttribute('delegate-handle'))
-    console.log('parentBox:' + parentBox.getAttribute('delegate-handle'))
-    console.log('sibling:'+sibling)
-    console.log('handle:'+handle)
-    console.log(sibling+'===null:'+(slide[sibling] === null))
-
-                        $ionicSlideBoxDelegate.$getByHandle(handle).enableSlide(slide[sibling] === null);
-
-                    }
-
-                }, 10);
-            };
 
             scope.onTabTabbed = function(event, index) {
                 addTabTouchAnimation(event, angular.element(event.currentTarget) );
@@ -401,18 +253,15 @@ console.log('disabling:'+slideBox[0].getAttribute('delegate-handle'))
             };
 
             scope.onSlideChange = function (event) {
-
                 slideToCurrentPosition();
-
-                // set the lock status of the sliding tabs
-                setLockStatus(angular.element(event.srcElement), event);
             };
 
             scope.onSlideMove = function (event) {
+
                 var scrollDiv = slider[0].getElementsByClassName("slider-slide");
 
                 var currentSlideIndex = ionicSlideBoxDelegate.currentIndex();
-                var currentSlide = angular.element(event.srcElement); //angular.element(scrollDiv[currentSlideIndex]);
+                var currentSlide = angular.element(scrollDiv[currentSlideIndex]);
                 var currentSlideLeftOffset = currentSlide.css('-webkit-transform').replace(/[^0-9\-.,]/g, '').split(',')[0];
 
                 var targetSlideIndex = (currentSlideIndex + 1) % scrollDiv.length;
@@ -427,9 +276,6 @@ console.log('disabling:'+slideBox[0].getAttribute('delegate-handle'))
                 var position = currentSlideLeftOffset / slider[0].offsetWidth;
                 var slideDirection = position > 0 ? "right":"left";
                 position = Math.abs(position);
-
-                // determine lock status for slidebox
-                setLockStatus(currentSlide, event);
 
                 setIndicatorPosition(currentSlideIndex, targetSlideIndex, position, slideDirection);
             };
@@ -472,10 +318,8 @@ slidingTabsDirective.factory('ionSlideBoxService', [function () {
     };
 
     slideBoxService.findBoxForSlide = function (slide) {
-console.log('ionSlideBoxService:')
-console.log('slide:'+slide)
         angular.forEach(slideBoxes, function (name) {
-            slideBoxes[name].querySelector('')
+            slideBoxes[name]
         });
     };
 
